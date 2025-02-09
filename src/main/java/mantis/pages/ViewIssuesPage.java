@@ -1,5 +1,6 @@
 package mantis.pages;
 
+import mantis.alerts.CheckAlerts;
 import mantis.utils.TestUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -33,7 +34,7 @@ public class ViewIssuesPage {
         PageFactory.initElements(driver, this);
     }
 
-    public String getBugId(){
+    public String getBugIdFromBugPage(){
         WebElement bugId = wait.until(ExpectedConditions.visibilityOfElementLocated
                 (By.xpath("//td[@class = 'bug-id']")));
         return bugId.getText();
@@ -63,8 +64,8 @@ public class ViewIssuesPage {
 
     public boolean isIssueDeletedOrNotFound(String issueId) {
         searchIssueById(issueId);
-        String notFoundAlert = TestUtils.issueNotFoundAlert(issueId);
-        return TestUtils.alertIsPresentByText(notFoundAlert, driver, wait);
+        String notFoundAlert = CheckAlerts.issueNotFoundAlert(issueId);
+        return CheckAlerts.alertIsPresentByText(notFoundAlert, driver, wait);
     }
 
 }

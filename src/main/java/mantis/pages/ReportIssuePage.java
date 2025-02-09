@@ -1,6 +1,7 @@
 package mantis.pages;
 
 import com.github.javafaker.Faker;
+import mantis.alerts.CheckAlerts;
 import mantis.utils.TestUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -76,7 +77,14 @@ public class ReportIssuePage {
         buttonSubmit.click();
     }
 
-    public void openNewIssue() {
+    public void createNewIssue(String category) {
+        selectCategory(category);
+        fillRandomSummary();
+        fillRandomDescription();
+        clickSubmit();
+    }
+
+    public void openCreatedIssue() {
         try {
             WebElement buttonViewNewIssue = wait.until(ExpectedConditions.elementToBeClickable
                     (By.xpath("//div[@class = 'alert alert-success center']//a[contains(@href, 'view.php?id=')]")));
@@ -87,7 +95,7 @@ public class ReportIssuePage {
     }
 
     public boolean isCreationSuccessful() {
-        return TestUtils.alertIsPresentByText("Operation successful.", driver, wait);
+        return CheckAlerts.alertIsPresentByText("Operation successful.", driver, wait);
     }
 
 }
